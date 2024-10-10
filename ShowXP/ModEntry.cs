@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using SpaceCore;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using System;
 using System.Collections.Generic;
 
 namespace ShowXP
@@ -14,7 +16,7 @@ namespace ShowXP
         public override void Entry(IModHelper helper)
         {
             this.Config = this.Helper.ReadConfig<ModConfig>();
-
+            
             helper.Events.GameLoop.OneSecondUpdateTicked += this.DisplayXp;
             helper.Events.Player.LevelChanged += this.LevelUp;
             helper.Events.GameLoop.GameLaunched += this.OnLaunch;
@@ -182,6 +184,16 @@ namespace ShowXP
         {
             if (_farmer.IsMainPlayer || _farmer.IsLocalPlayer)
             {
+                foreach (var s in Skills.GetSkillList())
+                {
+                    int lvl = Skills.GetExperienceFor(_farmer, s);
+                    int lastIndex = s.LastIndexOf('.');
+                    if (lastIndex >= 0 && lastIndex < s.Length - 1)
+                    {
+                        string trimmed = s.Substring(lastIndex + 1);
+                    }
+                }
+                
                 Farming = _farmer.experiencePoints[0];
                 Fishing = _farmer.experiencePoints[1];
                 Foraging = _farmer.experiencePoints[2];
@@ -196,7 +208,7 @@ namespace ShowXP
             if (farmer == null || !DisplayXp)
                 return;
 
-            Debris xpDebris = new Debris(value, new Vector2(farmer.getStandingX() + 40, farmer.getStandingY()), color, 1f, farmer);
+            Debris xpDebris = new Debris(value, new Vector2(farmer.getStandingPosition().X + 40, farmer.getStandingPosition().Y), color, 1f, farmer);
             xpDebris.Chunks[0].xVelocity.Value = 0;
             xpDebris.Chunks[0].yVelocity.Value = 0;
             farmer.currentLocation.debris.Add(xpDebris);

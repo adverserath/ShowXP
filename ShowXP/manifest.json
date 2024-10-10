@@ -1,10 +1,19 @@
 ﻿{
   "Name": "Show XP",
   "Author": "adverserath",
-  "Version": "1.0.0",
+  "Version": "1.0.1",
   "Description": "See XP as you earn it, and level up notifications",
   "UniqueID": "Adverserath.ShowXP",
   "EntryDll": "ShowXP.dll",
-  "MinimumApiVersion": "2.10.0",
-  "UpdateKeys": [ "Nexus:19501" ]
+  "MinimumApiVersion": "4.0.8",
+  "UpdateKeys": [ "Nexus:19501" ],
+   "Dependencies": [
+    {
+      "UniqueID": "spacechase0.SpaceCore"
+    },
+    {
+      "UniqueID": "spacechase0.GenericModConfigMenu",
+      "IsRequired": false
+    }
+  ]
 }
